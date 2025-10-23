@@ -9,6 +9,11 @@ return {
       "<leader>ff",
       function()
         local current_buffer_dir = vim.fn.expand("%:p:h")
+        -- If no buffer is open, use current working directory
+        if current_buffer_dir == "" then
+          current_buffer_dir = vim.fn.getcwd()
+        end
+
         local git_root = vim.fn.systemlist("cd " .. vim.fn.shellescape(current_buffer_dir) .. " && git rev-parse --show-toplevel 2>/dev/null")[1]
 
         if git_root and git_root ~= "" then
@@ -24,6 +29,10 @@ return {
       function()
         -- Get the directory of the current buffer
         local current_buffer_dir = vim.fn.expand("%:p:h")
+        -- If no buffer is open, use current working directory
+        if current_buffer_dir == "" then
+          current_buffer_dir = vim.fn.getcwd()
+        end
 
         -- Try to find git root from the current buffer's directory
         local git_root = vim.fn.systemlist("cd " .. vim.fn.shellescape(current_buffer_dir) .. " && git rev-parse --show-toplevel 2>/dev/null")[1]
